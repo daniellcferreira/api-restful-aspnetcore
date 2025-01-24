@@ -1,0 +1,52 @@
+# ASP.NET Core .gitignore
+
+# Visual Studio specific
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# ASP.NET Core build artifacts
+bin/
+obj/
+
+# Dependencies
+packages/
+*.nupkg
+*.snupkg
+project.lock.json
+
+# Logs
+*.log
+
+# User-specific files
+*.rsuser
+*.rsproj
+*.suo
+*.ntvs*
+*.njsproj
+*.sln.docstates
+
+# Configurations
+appsettings.*.json
+secrets.json
+.env
+
+# Rider specific
+.idea/
+*.sln.iml
+.idea_modules/
+
+# Tooling
+*.vs/
+.envrc
+
+# Coverage
+*.coverage
+coverage/
+TestResults/
