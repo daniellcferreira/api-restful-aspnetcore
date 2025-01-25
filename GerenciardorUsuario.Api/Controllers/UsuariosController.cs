@@ -6,6 +6,7 @@ namespace GerenciadorUsuario.Api.Controllers
 {
   [Route("/api/usuarios")]
   [Produces("application/json")]
+  [Consumes("application/json")]
   [ApiController]
   public class UsuariosController : ControllerBase
   {
@@ -21,9 +22,10 @@ namespace GerenciadorUsuario.Api.Controllers
 
     [HttpGet]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
-    public IActionResult BuscarUsuarios()
+    public IActionResult BuscarUsuarios([FromQuery] string filtroNome = "")
     {
-      return Ok(_usuarios);
+      IEnumerable<Usuario> usuariosFiltrados = _usuarios.Where(x => x.Nome.StartsWith(filtroNome, StringComparison.OrdinalIgnoreCase));
+      return Ok(usuariosFiltrados);
     }
 
     [HttpGet("{id:guid}", Name = nameof(BuscarPorId))]
@@ -47,6 +49,37 @@ namespace GerenciadorUsuario.Api.Controllers
       Usuario usuario = dto.ConverterParaModelo();
       _usuarios.Add(usuario);
       return CreatedAtAction(nameof(BuscarPorId), new { usuario.Id }, usuario);
+    }
+
+    [HttpPatch("{id:guid}")]
+    [ProducesResponseType(statusCode: StatusCodes.Status204NoContent)]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound)]
+    [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest)]
+    public IActionResult AtualizarUsuario([FromRoute] Guid id, [FromBody] AtualizarUsuarioDto dto)
+    {
+      Usuario usuario = _usuarios.FirstOrDefault(x => x.Id == id);
+      if (usuario is null)
+      {
+        return NotFound();
+      }
+
+      usuario.Nome = dto.Nome;
+      return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    [ProducesResponseType(statusCode: StatusCodes.Status204NoContent)]
+    [ProducesResponseType(statusCode: StatusCodes.Status404NotFound)]
+    public IActionResult RemoverUsuario([FromRoute] Guid id)
+    {
+      Usuario usuario = _usuarios.FirstOrDefault(x => x.Id == id);
+      if (usuario is null)
+      {
+        return NotFound();
+      }
+
+      _usuarios.Remove(usuario);
+      return NoContent();
     }
   }
 }
