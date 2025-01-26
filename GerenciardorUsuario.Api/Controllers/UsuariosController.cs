@@ -1,5 +1,6 @@
 using GerenciadorUsuario.Api.DTOs;
 using GerenciadorUsuario.Api.Models;
+using GerenciadorUsuario.Api.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerenciadorUsuario.Api.Controllers
@@ -10,21 +11,18 @@ namespace GerenciadorUsuario.Api.Controllers
   [ApiController]
   public class UsuariosController : ControllerBase
   {
-    private readonly static List<Usuario> _usuarios = new List<Usuario>()
+    private readonly IUsuarioRepository _usuarioRepository;
+    public UsuariosController(IUsuarioRepository usuarioRepository)
     {
-      new Usuario()
-      {
-        Id = Guid.NewGuid(),
-        Nome = "Usuario1",
-        Email = "usuario01.email.com"
-      }
-    };
+      _usuarioRepository = usuarioRepository;
+    }
 
     [HttpGet]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK, Type = typeof(List<Usuario>))]
     public IActionResult BuscarUsuarios([FromQuery] string filtroNome = "")
     {
-      IEnumerable<Usuario> usuariosFiltrados = _usuarios.Where(x => x.Nome.StartsWith(filtroNome, StringComparison.OrdinalIgnoreCase));
+      throw new Exception("Erro não tratado");
+      IEnumerable<Usuario> usuariosFiltrados = _usuarioRepository.ObterUsuarios().Where(x => x.Nome.StartsWith(filtroNome, StringComparison.OrdinalIgnoreCase));
       return Ok(usuariosFiltrados);
     }
 
@@ -33,7 +31,7 @@ namespace GerenciadorUsuario.Api.Controllers
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound)]
     public IActionResult BuscarPorId([FromRoute] Guid id)
     {
-      Usuario usuario = _usuarios.FirstOrDefault(x => x.Id == id);
+      Usuario usuario = _usuarioRepository.ObterUsuarios().FirstOrDefault(x => x.Id == id);
       if (usuario is not null)
       {
         return Ok(usuario);
@@ -47,7 +45,7 @@ namespace GerenciadorUsuario.Api.Controllers
     public IActionResult CriarUsuario([FromBody] CadastrarUsuarioDto dto)
     {
       Usuario usuario = dto.ConverterParaModelo();
-      _usuarios.Add(usuario);
+      _usuarioRepository.ObterUsuarios().Add(usuario);
       return CreatedAtAction(nameof(BuscarPorId), new { usuario.Id }, usuario);
     }
 
@@ -57,7 +55,7 @@ namespace GerenciadorUsuario.Api.Controllers
     [ProducesResponseType(statusCode: StatusCodes.Status400BadRequest)]
     public IActionResult AtualizarUsuario([FromRoute] Guid id, [FromBody] AtualizarUsuarioDto dto)
     {
-      Usuario usuario = _usuarios.FirstOrDefault(x => x.Id == id);
+      Usuario usuario = _usuarioRepository.ObterUsuarios().FirstOrDefault(x => x.Id == id);
       if (usuario is null)
       {
         return NotFound();
@@ -72,13 +70,13 @@ namespace GerenciadorUsuario.Api.Controllers
     [ProducesResponseType(statusCode: StatusCodes.Status404NotFound)]
     public IActionResult RemoverUsuario([FromRoute] Guid id)
     {
-      Usuario usuario = _usuarios.FirstOrDefault(x => x.Id == id);
+      Usuario usuario = _usuarioRepository.ObterUsuarios().FirstOrDefault(x => x.Id == id);
       if (usuario is null)
       {
         return NotFound();
       }
 
-      _usuarios.Remove(usuario);
+      _usuarioRepository.ObterUsuarios().Remove(usuario);
       return NoContent();
     }
   }
