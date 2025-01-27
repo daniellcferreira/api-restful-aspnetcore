@@ -10,7 +10,7 @@ namespace GerenciadorUsuario.Api.Repository
       {
         Id = Guid.NewGuid(),
         Nome = "Usuario1",
-        Email = "usuario01.email.com"
+        Email = "usuario01@email.com"
       }
     };
     public List<Usuario> ObterUsuarios()
