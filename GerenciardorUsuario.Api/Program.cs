@@ -1,6 +1,9 @@
 using GerenciadorUsuario.Api.Filters;
 using GerenciadorUsuario.Api.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -28,7 +31,34 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddSingleton<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddControllers(options => options.Filters.Add<ExceptionFilter>());
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var documentacao = new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+        {
+            Email = "usuarioadmin@gmail.com",
+            Name = "Esquipe API",
+            Url = new Uri("http://www.google.com.br")
+        },
+        Description = "API para gerenciamento de usuários",
+        Title = "API - Gerenciador de Usuários",
+    };
+
+    options.SwaggerDoc("v1", documentacao);
+    options.SwaggerDoc("v2", documentacao);
+});
+builder.Services.AddApiVersioning(options =>
+{
+    options.ApiVersionReader = new UrlSegmentApiVersionReader();
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+}).AddVersionedApiExplorer(options =>
+{
+    options.GroupNameFormat = "'v'V";
+    options.SubstituteApiVersionInUrl = true;
+});
 
 var app = builder.Build();
 
@@ -36,7 +66,14 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+        foreach (var description in provider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName);
+        }
+    });
 }
 
 app.UseHttpsRedirection();
