@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -11,6 +12,7 @@ namespace GerenciardorUsuario.Api.Controllers
   public class LoginController : ControllerBase
   {
     [HttpPost]
+    [EnableRateLimiting("janela-fixa")]
     public IActionResult GerarToken()
     {
       // Definição da chave de criptografia

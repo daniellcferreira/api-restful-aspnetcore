@@ -17,5 +17,11 @@ namespace GerenciadorUsuario.Api.Repository
     {
       return _usuarios;
     }
+
+    public async Task<List<Usuario>> ObterUsuariosAsync()
+    {
+      await Task.Delay(4_000);
+      return _usuarios;
+    }
   }
 }
