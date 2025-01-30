@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GerenciardorUsuario.Api", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerenciadorUsuario.UnitTests", "GerenciadorUsuario.UnitTests\GerenciadorUsuario.UnitTests.csproj", "{7BEB3930-3D8D-447F-AD52-A87485EA3B17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerenciadorUsuario.IntegrationTests", "GerenciadorUsuario.IntegrationTests\GerenciadorUsuario.IntegrationTests.csproj", "{E0590B1F-AC92-4E9D-8572-5A9D04AEC462}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7BEB3930-3D8D-447F-AD52-A87485EA3B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BEB3930-3D8D-447F-AD52-A87485EA3B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BEB3930-3D8D-447F-AD52-A87485EA3B17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0590B1F-AC92-4E9D-8572-5A9D04AEC462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0590B1F-AC92-4E9D-8572-5A9D04AEC462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0590B1F-AC92-4E9D-8572-5A9D04AEC462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0590B1F-AC92-4E9D-8572-5A9D04AEC462}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

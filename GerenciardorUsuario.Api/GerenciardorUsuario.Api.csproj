@@ -14,5 +14,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.1" />
   </ItemGroup>
+    <ItemGroup>
+      <InternalVisibleTo Include="GerenciadorUsuario.IntegrationTests" />
+    </ItemGroup>
 
 </Project>

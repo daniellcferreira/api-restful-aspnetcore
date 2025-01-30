@@ -103,4 +103,8 @@ app.Use((HttpContext, next) =>
     return next();
 });
 
+
+
 app.Run();
+
+public partial class Program { }
